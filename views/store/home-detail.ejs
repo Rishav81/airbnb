@@ -1,0 +1,319 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-50">
+<%- include('../partials/nav') %>
+
+<main class="max-w-7xl mx-auto mt-28 mb-24 px-6">
+
+  <!-- ================= HERO SECTION ================= -->
+  <div class="relative w-full h-[520px] rounded-3xl overflow-hidden shadow-2xl mb-20 group">
+    <img 
+      src="/<%= home.houseImg %>"  loading="lazy"
+      alt="<%= home.houseName %>" 
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+    >
+
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+
+    <!-- Bottom Content -->
+    <div class="absolute bottom-0 left-0 w-full p-8 text-white">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+        <%= home.houseName %>
+      </h1>
+
+      <div class="flex flex-wrap items-center gap-6 text-sm md:text-base">
+        <p>📍 <%= home.houseLocation %></p>
+
+        <div class="flex items-center gap-1">
+          <span class="text-yellow-400 text-lg">★</span>
+          <span class="font-semibold"><%= home.houseRating %></span>
+        </div>
+
+        <p class="text-xl font-bold text-red-400">
+          ₹<%= home.houseRent %>
+          <span class="text-sm font-normal text-gray-200">/ night</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= CONTENT SECTION ================= -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+
+    <!-- LEFT CONTENT -->
+    <div class="lg:col-span-2 space-y-14">
+
+      <!-- About -->
+      <div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">
+          About this place
+        </h3>
+        <p class="text-gray-700 leading-8 text-lg">
+          <%= home.houseDescription %>
+        </p>
+      </div>
+
+
+      <!-- Amenities -->
+      <div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">
+          What this place offers
+        </h3>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">🛏 2 Bedrooms</div>
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">🛁 2 Bathrooms</div>
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">📶 Free WiFi</div>
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">🚗 Free Parking</div>
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">❄ Air Conditioning</div>
+          <div class="bg-white p-4 rounded-xl shadow-sm border hover:shadow-md transition">🍳 Fully Equipped Kitchen</div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ================= BOOKING CARD ================= -->
+    <div>
+      <div class="sticky top-32 bg-white p-8 rounded-3xl shadow-2xl border border-gray-100">
+
+        <!-- Price -->
+        <div class="flex justify-between items-center mb-4">
+          <p class="text-2xl font-bold text-red-600">
+            ₹<%= home.houseRent %>
+            <span class="text-base font-normal text-gray-500">/ night</span>
+          </p>
+
+          <div class="flex items-center gap-1">
+            <span class="text-yellow-400">★</span>
+            <span class="font-semibold text-gray-700">
+              <%= home.houseRating %>
+            </span>
+          </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mb-6">
+          Includes all taxes & fees
+        </p>
+
+        <hr class="mb-6">
+
+        <!-- Booking Form -->
+        <form action="/booking" method="POST" class="space-y-4">
+
+          <input type="hidden" name="homeId" value="<%= home._id %>" />
+
+          <!-- Dates -->
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase">
+                Check-in
+              </label>
+              <input 
+                type="date"
+                name="checkIn"
+                id="checkIn"
+                required
+                min="<%= new Date().toISOString().split('T')[0] %>"
+                class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-400 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label class="text-xs font-semibold text-gray-500 uppercase">
+                Check-out
+              </label>
+              <input 
+                type="date"
+                name="checkOut"
+                id="checkOut"
+                required
+                class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Guests -->
+          <div>
+            <label class="text-xs font-semibold text-gray-500 uppercase">
+              Guests
+            </label>
+            <input 
+              type="number"
+              name="guest"
+              min="1"
+              max="10"
+              value="1"
+              required
+              class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-red-400 focus:outline-none"
+            />
+          </div>
+
+          <!-- Price Breakdown -->
+          <div class="border-t pt-4 text-sm space-y-2">
+
+            <div class="flex justify-between">
+              <span>
+                ₹<%= home.houseRent %> × 
+                <span id="nights" class="text-red-500">0</span> nights
+              </span>
+              <span id="subtotal" class="font-medium">₹0</span>
+            </div>
+
+            <div class="flex justify-between font-extrabold text-base">
+              <span>Total</span>
+              <span id="totalPrice" class="text-red-600">₹0</span>
+            </div>
+
+          </div>
+
+          <!-- Submit -->
+           <% if(!isLoggedIn) { %>
+          <a href="/login" class="w-full bg-gradient-to-r from-red-500 to-pink-500 
+                   text-white py-3 rounded-xl font-semibold 
+                   hover:opacity-90 transition block text-center">
+            Login to Book
+          </a>
+    <% } else { %>
+          <button 
+            type="submit"
+            class="w-full bg-gradient-to-r from-red-500 to-pink-500 
+                   text-white py-3 rounded-xl font-semibold 
+                   hover:opacity-90 transition">
+            Reserve
+          </button>
+          <% } %>
+
+        </form>
+
+        <p class="text-center text-xs text-gray-500 mt-4">
+          You won’t be charged yet
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ================= REVIEWS ================= -->
+  <div class="mt-24 border-t pt-16">
+    <div class="flex items-center gap-3 mb-12">
+      <span class="text-2xl text-yellow-400">★</span>
+      <h2 class="text-3xl font-bold text-gray-900">
+        <%= home.houseRating %> 
+        (<%= home.reviews ? home.reviews.length : 0 %> reviews)
+      </h2>
+    </div>
+
+    <% if(home.reviews && home.reviews.length > 0) { %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <% home.reviews.forEach(review => { %>
+          <div class="bg-white p-8 rounded-3xl shadow-md hover:shadow-xl transition border">
+            <div class="flex items-center gap-4 mb-3">
+              <div class="w-12 h-12 flex items-center justify-center bg-gray-200 rounded-full text-lg font-semibold text-gray-700">
+                <%= review.clientName.charAt(0).toUpperCase() %>
+              </div>
+              <div>
+                <p class="font-semibold text-gray-900">
+                  <%= review.clientName %>
+                </p>
+                <p class="text-sm text-gray-500">January 2026</p>
+              </div>
+            </div>
+
+            <div class="flex text-lg mb-3">
+              <% for(let i=1;i<=5;i++){ %>
+                <span class="<%= i<=review.rating ? 'text-yellow-400' : 'text-gray-300' %>">★</span>
+              <% } %>
+            </div>
+
+            <p class="text-gray-700 leading-relaxed">
+              <%= review.text %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="bg-gray-50 p-10 rounded-3xl text-center">
+        <p class="text-gray-600 text-lg">No reviews yet.</p>
+        <p class="text-gray-500 text-sm mt-2">
+          Be the first to share your experience!
+        </p>
+      </div>
+    <% } %>
+  </div>
+
+
+  <!-- ================= MAP ================= -->
+  <div class="mt-24">
+    <h3 class="text-2xl font-bold text-gray-900 mb-6">
+      Location
+    </h3>
+
+    <div class="w-full h-72 bg-gray-200 rounded-3xl flex items-center justify-center text-gray-500 text-lg shadow-inner">
+      Map Preview Coming Soon
+    </div>
+  </div>
+
+</main>
+
+<%- include('../partials/footer') %>
+
+
+
+<script>
+  const checkInInput = document.getElementById("checkIn");
+  const checkOutInput = document.getElementById("checkOut");
+
+  const nightsEl = document.getElementById("nights");
+  const subtotalEl = document.getElementById("subtotal");
+  const totalEl = document.getElementById("totalPrice");
+
+  const pricePerNight = Number(<%= home.houseRent %>);
+
+  function resetTotal() {
+    nightsEl.textContent = 0;
+    subtotalEl.textContent = "₹0";
+    totalEl.textContent = "₹0";
+  }
+
+  function calculateTotal() {
+    if (!checkInInput.value || !checkOutInput.value) {
+      return resetTotal();
+    }
+
+    const checkIn = new Date(checkInInput.value);
+    const checkOut = new Date(checkOutInput.value);
+
+    // Prevent invalid or same-day checkout
+    if (checkOut <= checkIn) {
+      resetTotal();
+      return;
+    }
+
+    const diffTime = checkOut.getTime() - checkIn.getTime();
+    const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const total = nights * pricePerNight;
+
+    nightsEl.textContent = nights;
+    subtotalEl.textContent = `₹${total}`;
+    totalEl.textContent = `₹${total}`;
+  }
+
+  // Automatically set checkout minimum date
+  checkInInput.addEventListener("change", () => {
+    checkOutInput.min = checkInInput.value;
+    if (checkOutInput.value && checkOutInput.value <= checkInInput.value) {
+      checkOutInput.value = "";
+    }
+    calculateTotal();
+  });
+
+  checkOutInput.addEventListener("change", calculateTotal);
+</script>
+</body>
+</html>

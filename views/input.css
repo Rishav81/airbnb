@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* hide scrollbar but allow scrolling */
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+.form-label {
+  @apply block text-sm font-semibold text-gray-800 mb-2;
+}
+
+.form-input {
+  @apply w-full rounded-xl border border-gray-300 bg-gray-50
+         px-4 py-3 text-sm
+         focus:bg-white focus:border-red-500
+         focus:ring-2 focus:ring-red-200
+         outline-none transition;
+}
+
+.form-textarea {
+  @apply w-full rounded-xl border border-gray-300 bg-gray-50
+         px-4 py-3 text-sm leading-relaxed
+         focus:bg-white focus:border-red-500
+         focus:ring-2 focus:ring-red-200
+         outline-none transition resize-none;
+}
+
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

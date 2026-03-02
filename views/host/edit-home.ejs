@@ -1,0 +1,230 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-screen">
+<%- include('../partials/nav') %>
+
+<!-- Header -->
+<header class="mt-28 text-center px-4">
+  <h1 class="text-3xl md:text-5xl font-extrabold text-gray-800 leading-tight">
+    <%= editing ? "Edit Your" : "Register Your" %>
+    <span class="bg-gradient-to-r from-red-500 to-pink-500 
+                 bg-clip-text text-transparent">
+      Home
+    </span>
+  </h1>
+
+  <p class="mt-4 text-gray-600 text-sm md:text-base max-w-xl mx-auto">
+    <%= editing 
+      ? "Update your listing details and improve your visibility"
+      : "Share your place with travelers around the world" %>
+  </p>
+
+  <div class="mt-4 w-20 h-1 bg-gradient-to-r from-red-500 to-pink-500 mx-auto rounded-full"></div>
+</header>
+
+<!-- Main -->
+<main class="mt-12 mb-20 px-4">
+  <div class="mx-auto max-w-3xl">
+
+    <form
+      action="<%= editing ? '/host/edit-home' : '/host/add-home' %>"
+      method="POST"
+      enctype="multipart/form-data"
+      class="bg-white rounded-3xl shadow-2xl shadow-black/10 
+             border border-gray-100 p-8 md:p-10 space-y-8 transition-all duration-300"
+    >
+
+      <% if (editing) { %>
+        <input type="hidden" name="id" value="<%= home.id %>">
+      <% } %>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- House Name -->
+        <div class="space-y-2">
+          <label class="form-label">House Name</label>
+          <input
+            name="houseName"
+            value="<%= editing ? home.houseName : '' %>"
+            placeholder="Green Leaf Cottage"
+            required
+            class="form-input focus:shadow-md transition-all duration-300"
+          />
+        </div>
+
+        <!-- Rent -->
+        <div class="space-y-2">
+          <label class="form-label">Rent per Night (₹)</label>
+          <input
+            type="number"
+            name="houseRent"
+            value="<%= editing ? home.houseRent : '' %>"
+            placeholder="2500"
+            required
+            class="form-input no-spinner focus:shadow-md transition-all duration-300"
+          />
+        </div>
+
+        <!-- Location -->
+        <div class="space-y-2">
+          <label class="form-label">Location</label>
+          <input
+            name="houseLocation"
+            value="<%= editing ? home.houseLocation : '' %>"
+            placeholder="Amritsar, Punjab"
+            required
+            class="form-input focus:shadow-md transition-all duration-300"
+          />
+        </div>
+
+        <!-- Rating -->
+        <div class="space-y-2">
+          <label class="form-label">Initial Rating (Host)</label>
+          <input
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            name="houseRating"
+            value="<%= editing ? home.houseRating : '' %>"
+            placeholder="0.0"
+            required
+            class="form-input no-spinner focus:shadow-md transition-all duration-300"
+          />
+          <p class="text-xs text-gray-400">
+            Users can update this later with reviews
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Destination Type -->
+      <div class="space-y-2">
+        <label class="form-label">Destination Type</label>
+        <div class="relative">
+          <select name="destinationType" required 
+                  class="form-input appearance-none pr-10 focus:shadow-md transition-all duration-300">
+            <option value="" disabled 
+              <%= !editing ? "selected" : "" %>>
+              Select Category
+            </option>
+
+            <option value="Beach" <%= editing && home.destinationType === "Beach" ? "selected" : "" %>>Beach</option>
+            <option value="Mountain" <%= editing && home.destinationType === "Mountain" ? "selected" : "" %>>Mountain</option>
+            <option value="Farmhouse" <%= editing && home.destinationType === "Farmhouse" ? "selected" : "" %>>Farmhouse</option>
+            <option value="Villa" <%= editing && home.destinationType === "Villa" ? "selected" : "" %>>Villa</option>
+            <option value="City" <%= editing && home.destinationType === "City" ? "selected" : "" %>>City</option>
+            <option value="Luxury" <%= editing && home.destinationType === "Luxury" ? "selected" : "" %>>Luxury</option>
+          </select>
+
+          <!-- Dropdown Icon -->
+          <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+            ▼
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div>
+        <h3 class="font-semibold mb-3 text-gray-700">What you offers</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="🛏 2 Bedrooms" <%= editing && home.features.includes("🛏 2 Bedrooms") ? "checked" : "" %> class="accent-red-500"> 2 Bedrooms
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="🛁 2 Bathrooms" <%= editing && home.features.includes("🛁 2 Bathrooms") ? "checked" : "" %> class="accent-red-500"> 2 Bathrooms
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="📶 Free WiFi" <%= editing && home.features.includes("📶 Free WiFi") ? "checked" : "" %> class="accent-red-500"> Free WiFi
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="🚗 Free Parking" <%= editing && home.features.includes("🚗 Free Parking") ? "checked" : "" %> class="accent-red-500"> Free Parking
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="❄ Air Conditioning" <%= editing && home.features.includes("❄ Air Conditioning") ? "checked" : "" %> class="accent-red-500"> Air Conditioning
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-red-50 transition cursor-pointer">
+            <input type="checkbox" name="features" value="🍳 Fully Equipped Kitchen" <%= editing && home.features.includes("🍳 Fully Equipped Kitchen") ? "checked" : "" %> class="accent-red-500"> Fully Equipped Kitchen
+          </label>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="space-y-3">
+        <label class="form-label">Image</label>
+
+        <% if (editing && home.houseImg) { %>
+          <div>
+            <p class="text-sm text-gray-500 mb-2">Current Image:</p>
+            <img src="/<%= home.houseImg %>" 
+                 class="w-48 h-32 object-cover rounded-xl border shadow-sm">
+          </div>
+        <% } %>
+
+        <input
+          type="file"
+          name="houseImg"
+          accept="image/jpg, image/jpeg, image/png"
+          class="form-input focus:shadow-md transition-all duration-300"
+        />
+      </div>
+
+      <!-- Description -->
+      <div class="space-y-2">
+        <label class="form-label">Home Description</label>
+        <textarea
+          name="houseDescription"
+          rows="6"
+          placeholder="Describe your home, amenities, nearby places, why guests should book..."
+          required
+          class="form-textarea focus:shadow-md transition-all duration-300"
+        ><%= editing ? home.houseDescription : '' %></textarea>
+
+        <p class="text-xs text-gray-400">
+          Tip: Mention nearby attractions + amenities for better bookings
+        </p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="border-t pt-8 flex gap-4">
+
+        <% if (editing) { %>
+
+          <button
+            class="flex-1 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 
+                   py-3 font-semibold text-white
+                   shadow-lg shadow-red-500/30
+                   hover:shadow-red-500/40 hover:scale-[1.02]
+                   active:scale-95 transition-all duration-300">
+            Save Changes
+          </button>
+
+          <a href="/host/host-home-list"
+             class="flex-1 text-center rounded-xl border border-gray-300 py-3
+                    font-semibold hover:bg-gray-100 transition">
+            Cancel
+          </a>
+
+        <% } else { %>
+
+          <button
+            class="w-full rounded-xl bg-gradient-to-r from-red-500 to-pink-500 
+                   py-3 font-semibold text-white
+                   shadow-lg shadow-red-500/30
+                   hover:shadow-red-500/40 hover:scale-[1.02]
+                   active:scale-95 transition-all duration-300">
+            Register Home
+          </button>
+
+        <% } %>
+
+      </div>
+
+    </form>
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-slate-950 to-black flex flex-col text-white">
+
+  <%- include('../partials/nav') %>
+
+<main class="flex-grow max-w-[90rem] mx-auto px-6 min-h-screen py-24 w-full">
+
+    <!-- Header Section -->
+     <div class="mb-14">
+    <div class="relative flex items-center justify-center">
+
+      <!-- Back Button -->
+      <a href="/booking"
+         class="hidden md:block absolute left-0 
+                text-red-400 hover:text-red-500 
+                font-medium transition duration-300">
+        ← Back
+      </a>
+
+      <!-- Title -->
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+        Upcoming
+        <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+          Bookings
+        </span>
+      </h1>
+
+    </div>
+  </div>
+
+    <!-- If No Bookings -->
+    <% if (!bookings || bookings.length === 0) { %>
+
+      <div class="bg-white/[0.04] backdrop-blur-xl 
+                  border border-white/10
+                  p-14 rounded-3xl shadow-2xl shadow-black/40 
+                  text-center max-w-xl mx-auto">
+
+        <h2 class="text-xl font-semibold text-white mb-3">
+          No upcoming bookings
+        </h2>
+
+        <p class="text-gray-400 mb-6">
+          Looks like you haven't planned your next stay yet.
+        </p>
+
+        <a href="/"
+           class="inline-block bg-gradient-to-r from-red-500 to-pink-500
+                  text-white px-6 py-2.5 rounded-xl
+                  font-semibold shadow-lg shadow-red-500/30
+                  hover:shadow-red-500/50 hover:scale-[1.03]
+                  active:scale-95 transition-all duration-300">
+          Explore Homes
+        </a>
+
+      </div>
+
+    <% } %>
+
+
+    <!-- Booking Cards -->
+    <div class="grid  sm:grid-cols-2 lg:grid-cols-3  gap-8">
+
+      <% bookings.forEach(booking => { %>
+
+        <div class="group bg-white/[0.04] backdrop-blur-xl
+                    border border-white/10
+                    rounded-3xl overflow-hidden
+                    shadow-lg shadow-black/40
+                    transition-all duration-300 ease-out
+                    hover:-translate-y-2 
+                    hover:shadow-2xl hover:shadow-black/60
+                    flex flex-col">
+
+          <!-- Image -->
+          <div class="relative overflow-hidden">
+
+            <img 
+              src="/<%= booking.home.houseImg %>"
+              loading="lazy"
+              alt="<%= booking.home.houseName %>"
+              class="h-52 w-full object-cover
+                     transition-transform duration-700 ease-out
+                     group-hover:scale-110"
+            />
+
+            <!-- Image Overlay -->
+            <div class="absolute bottom-0 left-0 w-full 
+                        bg-gradient-to-t from-black/80 via-black/40 to-transparent 
+                        p-4">
+
+              <h2 class="text-sm font-semibold line-clamp-1 
+                         group-hover:text-red-400 transition duration-300">
+                <%= booking.home.houseName %>
+              </h2>
+
+              <p class="text-xs text-gray-300 line-clamp-1 mt-1">
+                📍 <%= booking.home.houseLocation %>
+              </p>
+
+            </div>
+          </div>
+
+          <!-- Details -->
+          <div class="p-5 flex flex-col flex-grow">
+
+            <div class="text-sm space-y-2 text-gray-400">
+
+              <p>
+                <span class="font-medium text-gray-200">Check-in:</span>
+                <%= booking.checkIn.toDateString() %>
+              </p>
+
+              <p>
+                <span class="font-medium text-gray-200">Check-out:</span>
+                <%= booking.checkOut.toDateString() %>
+              </p>
+
+            </div>
+
+            <!-- Cancel Button -->
+            <form action="/booking/delete/<%= booking._id %>" 
+                  method="POST" 
+                  class="mt-auto pt-6">
+
+              <button 
+                type="submit"
+                onclick="return confirm('Are you sure you want to cancel this booking?')"
+                class="w-full bg-gradient-to-r from-red-500 to-pink-500
+                       text-white py-2.5 rounded-xl text-sm font-semibold
+                       shadow-md shadow-red-500/30
+                       hover:shadow-red-500/50 
+                       hover:scale-[1.02]
+                       active:scale-95
+                       transition-all duration-300">
+                Cancel Booking
+              </button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </main>
+
+  <%- include('../partials/footer') %>
+
+</body>
+</html>

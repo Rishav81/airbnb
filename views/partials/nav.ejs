@@ -1,0 +1,241 @@
+<header class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-xl border-b border-white/10" >
+  <div class="mx-auto flex max-w-[90rem] items-center justify-between px-3 py-4 md:px-6 ">
+    
+    <!-- Logo -->
+  <a href="/" class="cursor-pointer <%= currentPage === 'Home' ? 'text-red-600' : 'text-red-400 hover:text-red-500 transition-colors duration-200' %>">
+  <h2 class="text-xl md:text-2xl font-extrabold tracking-wide bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+    Airbnb
+  </h2>
+</a>
+
+
+      
+
+
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex gap-12 text-sm font-semibold text-gray-700 items-center">
+
+  <% 
+    const linkClass = (pageName) => 
+      `flex items-center gap-1 relative text-white pb-1 transition hover:text-red-500 ${
+        currentPage === pageName
+          ? 'text-red-500 after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-red-500'
+          : 'after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-red-500 hover:after:w-full after:transition-all after:duration-300'
+      }`;
+  %>
+
+  <% if (isLoggedIn && user) { %>
+
+    <% if (user.role === 'user') { %>
+
+      <!-- Home List -->
+      <a href="/home-list" class="<%= linkClass('Home-List') %>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9v9a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4H9v4a2 2 0 01-2 2H3a2 2 0 01-2-2v-9z"/>
+        </svg>
+        Home-List
+      </a>
+
+      <!-- Booking -->
+      <a href="/booking" class="<%= linkClass('Booking') %>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z"/>
+        </svg>
+        Booking
+      </a>
+
+      <!-- Favourite -->
+      <a href="/favourite-list" class="<%= linkClass('Favourite') %>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+        </svg>
+        Favourite
+      </a>
+
+    <% } else if (user.role === 'host') { %>
+
+      <!-- Host Home List -->
+      <a href="/host/host-home-list" class="<%= linkClass('Host-Home-List') %>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l4 4-4 4-4-4 4-4zM4 14h16v6H4v-6z"/>
+        </svg>
+        Host-Home
+      </a>
+
+      <!-- Add Home -->
+      <a href="/host/add-home" class="<%= linkClass('AddHome') %>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        Add Home
+      </a>
+
+    <% } %>
+
+  <% } %>
+
+</nav>
+  
+
+    <!-- Login / Signup or Profile -->
+    <div class="relative hidden md:block">
+      <% if (!isLoggedIn) { %>
+        <div class="flex gap-2">
+          <a href="/login" class="flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition shadow-lg text-white <%= currentPage === 'Login' ? 'bg-red-700' : 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600' %>">
+            <!-- Login SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+            </svg>
+            Login
+          </a>
+
+          <a href="/signup"class="flex items-center gap-1 px-4 py-2 text-sm font-semibold rounded-full transition shadow-lg text-white <%= currentPage === 'Signup' ? 'bg-red-700' : 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600' %>">
+            <!-- Signup SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            SignUp
+          </a>
+        </div>
+      <% } else { %>
+        <!-- Profile -->
+        <button id="profileBtn" class="flex items-center gap-2 rounded-full border px-2 py-2 bg-white/30 backdrop-blur hover:shadow-md transition">
+          <!-- Avatar SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 rounded-full text-red-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+            <path fill-opacity=".3" d="M12 14c-4 0-6 2-6 6h12c0-4-2-6-6-6z"/>
+          </svg>
+        </button>
+
+        <!-- Dropdown -->
+        <div id="profileMenu" class="hidden absolute right-0 mt-3 w-52 rounded-xl bg-white shadow-xl border p-3 z-50">
+          <a href="/profile-detail" class="block px-2 py-2 text-sm hover:bg-gray-100 rounded-lg">Profile Details</a>
+          <form action="/logout" method="POST">
+            <button class="w-full text-left px-2 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">Logout</button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Hamburger (Mobile) -->
+    <button id="menu-btn" class="md:hidden flex flex-col gap-1.5 focus:outline-none">
+      <span class="h-0.5 w-6 bg-gray-800"></span>
+      <span class="h-0.5 w-6 bg-gray-800"></span>
+      <span class="h-0.5 w-6 bg-gray-800"></span>
+    </button>
+
+  </div>
+
+  <style>
+    .open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .open span:nth-child(2) { opacity: 0; }
+    .open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  </style>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white border-t px-6 py-4 space-y-3 text-sm font-semibold text-gray-700">
+    <% if(isLoggedIn) { %>
+      <% if(user && user.role === 'user') { %>
+      <a href="/home-list" class="flex items-center gap-1 hover:text-red-500 <%=currentPage==='Home-List'?'text-red-500':''%>">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9v9a2 2 0 01-2 2h-4a2 2 0 01-2-2v-4H9v4a2 2 0 01-2 2H3a2 2 0 01-2-2v-9z"/></svg>
+        Home List
+      </a>
+      <a href="/booking" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Booking'?'text-red-500':''%>">
+    <!-- Booking SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z" />
+    </svg>
+    Booking
+  </a>
+
+   <a href="/favourite-list" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Favourite'?'text-red-500':''%>">
+    <!-- Favourite SVG -->
+     <svg xmlns="http://www.w3.org/2000/svg" 
+       class="h-4 w-4" 
+       fill="none" 
+       viewBox="0 0 24 24" 
+       stroke="currentColor">
+    <path stroke-linecap="round" 
+          stroke-linejoin="round" 
+          stroke-width="2" 
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+  </svg>
+    Favourite
+  </a>
+<% } else { %>
+  <a href="/host/host-home-list" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Host-Home-List'?'text-red-500':''%>">
+    <!-- Host Home SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l4 4-4 4-4-4 4-4zM4 14h16v6H4v-6z" />
+    </svg>
+    Host Home
+  </a>
+
+  <a href="/host/add-home" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='AddHome'?'text-red-500':''%>">
+    <!-- Add Home SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    Add Home
+  </a>
+  <% } %>
+
+  <a href="/profile-detail" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Profile'?'text-red-500':''%>">
+    <!-- Profile SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+      <path fill-opacity=".3" d="M12 14c-4 0-6 2-6 6h12c0-4-2-6-6-6z"/>
+    </svg>
+    Profile Details
+  </a>
+
+  <form action="/logout" method="POST">
+    <button class="flex items-center gap-2 hover:text-red-500">
+      <!-- Logout SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10V5" />
+      </svg>
+      Logout
+    </button>
+  </form>
+
+<% } else { %>
+  <a href="/login" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Login'?'text-red-500':''%>">
+    <!-- Login SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7-7 7" />
+    </svg>
+    Login
+  </a>
+
+  <a href="/signup" class="flex items-center gap-2 hover:text-red-500 <%=currentPage==='Signup'?'text-red-500':''%>">
+    <!-- Signup SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    SignUp
+  </a>
+  <% } %>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById("menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    btn.classList.toggle("open");
+  });
+
+  // Profile dropdown
+  const btn1 = document.getElementById("profileBtn");
+  const menu1 = document.getElementById("profileMenu");
+  if (btn1) {
+    btn1.addEventListener("click", () => menu1.classList.toggle("hidden"));
+    document.addEventListener("click", (e) => {
+      if (!btn1.contains(e.target) && !menu1.contains(e.target)) menu1.classList.add("hidden");
+    });
+  }
+</script>

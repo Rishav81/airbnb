@@ -1,0 +1,127 @@
+<section>
+  <div class="max-w-[90rem] mx-auto px-6">
+    <!-- Section Header -->
+    <div class="mb-2">
+  <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">
+    Recently
+    <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+      Added
+    </span>
+  </h2>
+  <div class="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-500 mt-1 rounded-full"></div>
+</div>
+
+    <!-- Grid -->
+
+   
+  
+   
+      <div class="flex gap-2 overflow-x-auto pb-6 scroll-smooth snap-x snap-mandatory">
+      <!-- Card -->
+        <% newlyAddedHomes.forEach(home =>{ %>
+
+            <% 
+      const today = new Date();
+      const createdDate = new Date(home.createdAt);
+      const diffDays = (today - createdDate) / (1000 * 60 * 60 * 24);
+      const isNew = diffDays <= 30;   // show NEW for 30 days
+    %>
+     <div class="group block relative min-w-[160px] md:min-w-[180px] lg:min-w-[200px] 
+snap-start rounded-2xl overflow-hidden 
+shadow-md hover:shadow-2xl 
+transition-all duration-500 ease-out will-change-transform">
+
+  <a href="/home-list/<%= home._id %>">
+
+    <!-- Image -->
+    <img
+      src="<%= home.houseImg %>"
+      loading="lazy"
+      class="w-full h-52 object-cover 
+             group-hover:scale-105 
+             transition-transform duration-700 ease-out 
+             will-change-transform"
+    />
+
+    <!-- NEW Badge -->
+    <div class="absolute top-3 left-3 
+                bg-red-500/90 backdrop-blur-sm 
+                text-white text-[10px] sm:text-xs 
+                font-semibold px-3 py-1 rounded-full 
+                shadow-lg transition duration-300">
+      NEW
+    </div>
+
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 
+                bg-gradient-to-t from-black/70 via-black/20 to-transparent 
+                group-hover:from-black/60 
+                transition-all duration-500 ease-out">
+    </div>
+
+    <!-- Bottom Content -->
+    <div class="absolute bottom-3 left-3 right-3 text-white">
+      <h3 class="font-semibold text-sm sm:text-base line-clamp-1">
+        <%= home.houseName %>
+      </h3>
+
+      <p class="text-xs text-gray-200 line-clamp-1">
+        📍 <%= home.houseLocation %>
+      </p>
+
+      <!-- Price + Rating -->
+      <div class="flex justify-between items-center mt-2">
+
+        <span class="text-xs sm:text-sm font-bold">
+          ₹<%= home.houseRent %>
+          <span class="font-normal text-gray-200">/night</span>
+        </span>
+
+        <!-- ✅ Enhanced Rating -->
+        <div class="flex items-center gap-1 
+                    bg-black/50 backdrop-blur-md 
+                    px-2 py-1 rounded-full 
+                    text-xs font-semibold 
+                    shadow-lg transition duration-300">
+          <span class="text-yellow-400">★</span>
+          <span><%= home.houseRating %></span>
+        </div>
+
+      </div>
+    </div>
+
+  </a>
+</div>
+
+        <% }) %>
+          <!-- View All -->
+         
+           <div class="flex justify-center mt-6">
+  <a
+   href="<%= (isLoggedIn && user) ? `/home-list` : '/login' %>"
+    class="relative w-32 h-32 rounded-xl overflow-hidden shadow-lg group transition-transform duration-300 transform"
+  >
+    <!-- Background image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center transition-transform duration-500 transform group-hover:scale-110"
+      
+    ></div>
+
+    <!-- Overlay for dark gradient + text -->
+    <div class="absolute inset-0 bg-opacity-30 flex items-center justify-center">
+      <span class="text-white text-lg font-semibold transition-transform duration-300 group-hover:scale-110">
+        View All →
+      </span>
+    </div>
+  </a>
+</div>
+
+
+       
+    </div>
+
+     
+
+  
+  </div>
+</section>

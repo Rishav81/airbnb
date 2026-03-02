@@ -1,0 +1,80 @@
+<%- include('../partials/head') %>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200 flex flex-col items-center">
+
+  <%- include('../partials/nav') %>
+
+  <main class="max-w-3xl w-full mt-28 mb-20 px-6">
+
+    <!-- Page Heading -->
+    <h1 class="text-3xl md:text-4xl lg:text-lxl font-extrabold mb-6 text-gray-900 text-center">
+      My <span class="bg-gradient-to-r from-red-500 to-pink-500 
+                 bg-clip-text text-transparent"> Profile</span>
+    </h1>
+
+    <!-- Profile Form Container -->
+    <div class="bg-white p-8 rounded-2xl shadow-md">
+
+      <form action="/profile-detail" method="POST" class="flex flex-col gap-6">
+
+        <% if (LoggedIn && user) { %>
+          <!-- USER FIELDS -->
+          <div>
+            <label class="block text-gray-700 mb-2" for="name">Name</label>
+            <input type="text" name="name" id="name" value="<%= user.userName %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2" for="email">Email</label>
+            <input type="email" name="email" id="email" value="<%= user.email %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2" for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" value="<%= user.phone || '' %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+          </div>
+
+        <% } else if (LoggedIn && user.role === 'host') { %>
+          <!-- HOST FIELDS -->
+          <div>
+            <label class="block text-gray-700 mb-2" for="name">Name</label>
+            <input type="text" name="name" id="name" value="<%= user.userName %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2" for="email">Email</label>
+            <input type="email" name="email" id="email" value="<%= user.email %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2" for="phone">Phone</label>
+            <input type="text" name="phone" id="phone" value="<%= user.phone || '' %>"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 transition">
+          </div>
+        <% } %>
+
+        <!-- Buttons -->
+        <div class="flex gap-4 mt-4">
+          <button type="submit" 
+                  class="flex-1 py-3 bg-gradient-to-r from-red-500 to-pink-500 text-white font-semibold rounded-xl hover:opacity-90 transition duration-300">
+            Update Profile
+          </button>
+
+          <a href="/" 
+             class="flex-1 py-3 bg-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-400 text-center transition duration-300">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+</body>
+</html>

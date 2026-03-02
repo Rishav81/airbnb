@@ -1,0 +1,148 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-slate-950 to-black flex flex-col">
+
+<%- include('../partials/nav') %>
+
+<main class="flex-grow max-w-[90rem] mx-auto px-6 min-h-screen py-24 w-full">
+
+  <!-- Header Section -->
+  <div class="mb-14">
+    <div class="relative flex items-center justify-center">
+
+      <!-- Back Button -->
+      <a href="/booking"
+         class="hidden md:block absolute left-0 
+                text-red-400 hover:text-red-500 
+                font-medium transition duration-300">
+        ← Back
+      </a>
+
+      <!-- Title -->
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
+        Previous
+        <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+          Bookings
+        </span>
+      </h1>
+
+    </div>
+  </div>
+
+
+  <!-- If No Bookings -->
+  <% if (!bookings || bookings.length === 0) { %>
+
+    <div class="bg-white/[0.05] backdrop-blur-md 
+                border border-white/10
+                p-12 rounded-3xl shadow-xl shadow-black/40 
+                text-center max-w-lg mx-auto">
+
+      <h2 class="text-xl font-semibold text-white mb-2">
+        No bookings yet
+      </h2>
+
+      <p class="text-gray-400 mb-6">
+        Looks like you haven’t booked any stays.
+      </p>
+
+      <a href="/"
+         class="inline-block bg-gradient-to-r from-red-500 to-pink-500
+                text-white px-6 py-2.5 rounded-xl
+                font-semibold shadow-lg shadow-red-500/30
+                hover:shadow-red-500/50 hover:scale-[1.03]
+                active:scale-95 transition-all duration-300">
+        Start Exploring
+      </a>
+
+    </div>
+
+  <% } %>
+
+
+  <!-- Booking Cards -->
+  <div class="grid  sm:grid-cols-2 lg:grid-cols-3  gap-6">
+
+    <% bookings.forEach(booking => { %>
+
+      <div class="group bg-white/[0.04] backdrop-blur-md
+                  border border-white/10
+                  rounded-3xl shadow-lg shadow-black/40 
+                  overflow-hidden
+                  transition-all duration-300 ease-out
+                  hover:-translate-y-1 
+                  hover:shadow-2xl hover:shadow-black/60
+                  flex flex-col">
+
+        <!-- Image -->
+        <div class="relative overflow-hidden">
+
+          <img 
+            src="/<%= booking.home.houseImg %>"
+            loading="lazy"
+            alt="<%= booking.home.houseName %>"
+            class="h-44 w-full object-cover
+                   transition-transform duration-700 ease-out
+                   group-hover:scale-110"
+          />
+
+          <!-- Overlay -->
+          <div class="absolute bottom-0 left-0 w-full 
+                      bg-gradient-to-t from-black/80 via-black/30 to-transparent 
+                      p-4 text-white transition duration-300">
+
+            <h2 class="text-sm font-semibold line-clamp-1
+                       group-hover:text-red-400 transition duration-300">
+              <%= booking.home.houseName %>
+            </h2>
+
+            <p class="text-xs text-gray-200 line-clamp-1 mt-1">
+              📍 <%= booking.home.houseLocation %>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Details -->
+        <div class="p-5 flex flex-col flex-grow text-gray-300">
+
+          <div class="text-sm space-y-1 text-gray-400">
+            <p>
+              <span class="font-medium text-gray-200">Check-in:</span>
+              <%= booking.checkIn.toDateString() %>
+            </p>
+
+            <p>
+              <span class="font-medium text-gray-200">Check-out:</span>
+              <%= booking.checkOut.toDateString() %>
+            </p>
+          </div>
+
+          <!-- Completed Badge -->
+          <div class="mt-auto pt-6">
+            <span 
+              class="block w-full text-center 
+                     bg-white/10 text-gray-400 
+                     py-2.5 rounded-xl 
+                     text-sm font-semibold 
+                     border border-white/10
+                     cursor-not-allowed">
+              ✓ Booking Completed
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</main>
+
+<%- include('../partials/footer') %>
+
+</body>
+</html>

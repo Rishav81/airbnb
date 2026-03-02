@@ -1,0 +1,188 @@
+<section class="relative w-full pt-24 overflow-hidden">
+  <!-- Center Wrapper -->
+  <div class="relative mx-auto w-full max-w-[90rem] px-6">
+    <!-- Image Container -->
+    <div class="relative rounded-3xl overflow-hidden shadow-2xl min-h-[85vh]">
+      <!-- Background Images -->
+      <div id="hero-images" class="absolute inset-0 z-0">
+        <img
+          src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=100&w=2200&auto=format&fit=crop&q=60"
+          loading="eager"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ease-in-out opacity-100 scale-105 will-change-opacity"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=100&w=2200&auto=format&fit=crop&q=60"
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ease-in-out opacity-0 scale-105 will-change-opacity"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1558036117-15d82a90b9b1?q=100&w=2200&auto=format&fit=crop"
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ease-in-out opacity-0 scale-105 will-change-opacity"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1416331108676-a22ccb276e35?q=100&w=2200&auto=format&fit=crop"
+          loading="lazy"
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-[2000ms] ease-in-out opacity-0 scale-105 will-change-opacity"
+        />
+      </div>
+
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/55 to-black/80 z-10"
+      ></div>
+
+      <!-- Content -->
+      <div
+        class="relative z-20 flex flex-col items-center justify-center text-center min-h-[85vh] px-6"
+      >
+        <!-- Heading -->
+        <h1
+          class="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight tracking-tight drop-shadow-2xl"
+        >
+          Find Your
+          <span
+            class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent"
+          >
+            Perfect Stay
+          </span>
+        </h1>
+
+        <!-- Subtext -->
+        <p
+          class="text-gray-200 text-base sm:text-lg md:text-xl mb-12 max-w-2xl"
+        >
+          Explore thousands of homes, apartments and unique stays. Book your
+          next experience with ease.
+        </p>
+
+        <!-- Search Bar -->
+        <form
+          action="/home-list"
+          method="GET"
+          class="w-full max-w-6xl mx-auto backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl md:rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)] px-6 py-5 md:px-8 md:py-4 flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-0 transition-all duration-300 hover:shadow-[0_15px_50px_rgba(255,56,92,0.25)]"
+        >
+          <!-- Location -->
+          <div
+            class="flex-1 flex items-center border border-white/20 md:border-0 md:border-r md:border-white/20 rounded-lg md:rounded-none px-4 py-3 md:py-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5 text-red-400 mr-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 12.414a4 4 0 10-5.656 5.656l4.243 4.243a8 8 0 1111.314-11.314z"
+              />
+            </svg>
+            <input
+              type="text"
+              name="location"
+              placeholder="Where are you going?"
+              class="w-full bg-transparent outline-none text-white placeholder-gray-300 text-sm font-medium"
+              required
+            />
+          </div>
+
+          <!-- Check In -->
+          <div
+            class="flex-1 flex items-center border border-white/20 md:border-0 md:border-r md:border-white/20 rounded-lg md:rounded-none px-4 py-3 md:py-2"
+          >
+            <input
+              type="date"
+              name="checkIn"
+              min="<%= new Date().toISOString().split('T')[0] %>"
+              class="w-full bg-transparent outline-none text-gray-200 text-sm font-medium"
+            />
+          </div>
+
+          <!-- Check Out -->
+          <div
+            class="flex-1 flex items-center border border-white/20 md:border-0 rounded-lg md:rounded-none px-4 py-3 md:py-2"
+          >
+            <input
+              type="date"
+              name="checkOut"
+              min="<%= new Date().toISOString().split('T')[0] %>"
+              class="w-full bg-transparent outline-none text-gray-200 text-sm font-medium"
+            />
+          </div>
+
+          <!-- Button -->
+          <div class="md:pl-6">
+            <button
+              type="submit"
+              class="w-full md:w-auto bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl md:rounded-full font-semibold text-sm transition-all duration-300 shadow-lg hover:shadow-[0_10px_30px_rgba(255,56,92,0.5)] hover:scale-105 active:scale-95"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- check in and check out -->
+<script>
+  const checkIn = document.querySelector("input[name='checkIn']");
+  const checkOut = document.querySelector("input[name='checkOut']");
+
+  checkIn.addEventListener("change", () => {
+    checkOut.min = checkIn.value;
+
+    if (checkOut.value < checkIn.value) {
+      checkOut.value = "";
+    }
+  });
+</script>
+
+<script>
+  // Rotating hero images every 5 seconds
+  const images = document.querySelectorAll("#hero-images img");
+  let current = 0;
+  setInterval(() => {
+    images[current].classList.remove("opacity-100");
+    images[current].classList.add("opacity-0");
+    current = (current + 1) % images.length;
+    images[current].classList.remove("opacity-0");
+    images[current].classList.add("opacity-100");
+  }, 5000);
+</script>
+
+<style>
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    animation: fade-in 1s ease-out forwards;
+  }
+  .animate-fade-in.delay-200 {
+    animation-delay: 0.2s;
+  }
+  .animate-fade-in.delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes slowZoom {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.08);
+    }
+  }
+</style>

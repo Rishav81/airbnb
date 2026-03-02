@@ -1,0 +1,121 @@
+<section class="pt-10 ">
+  <div class="max-w-[90rem] mx-auto px-6">
+
+    <!-- Section Header -->
+   <div class="mb-2">
+  <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">
+    Top Rated 
+    <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+      Homes
+    </span>
+  </h2>
+  <div class="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-500 mt-1 rounded-full"></div>
+</div>
+     
+
+    <% if (topHomes && topHomes.length > 0) { %>
+
+    <!-- Scroll Wrapper -->
+  
+
+     
+
+      <!-- Horizontal Scroll Container -->
+      <div class="flex gap-2 overflow-x-auto pb-6 scroll-smooth snap-x snap-mandatory">
+
+        <% topHomes.forEach(home => { %>
+
+        <a href="/home-list/<%= home._id %>" 
+           class="group relative block
+          w-[160px] md:w-[180px] lg:w-[200px]
+          flex-shrink-0
+          snap-start
+          rounded-2xl overflow-hidden
+          shadow hover:shadow-xl
+          transition-all duration-300">
+
+          <!-- Image -->
+          <div class="relative h-52 w-full">
+            <img src="/<%= home.houseImg %>"   loading="lazy"
+                 alt="<%= home.houseName %>" 
+                 class="h-full w-full object-cover 
+group-hover:scale-105 
+transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] 
+will-change-transform" />
+
+            <!-- Dark Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+            <!-- Rating -->
+             <div class="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
+    <span class="text-yellow-400">★</span>
+    <%= home.houseRating %>
+  </div>
+
+                               <!-- Bottom Content -->
+ <div class="absolute bottom-3 left-3 right-3 text-white">
+      <h3 class="font-semibold text-sm sm:text-base line-clamp-1">
+        <%= home.houseName %>
+      </h3>
+
+      <p class="text-xs text-gray-200 line-clamp-1">
+        📍 <%= home.houseLocation %>
+      </p>
+
+      <!-- Price + Rating -->
+      <div class="flex justify-between items-center mt-2">
+
+        <span class="text-xs sm:text-sm font-bold">
+          ₹<%= home.houseRent %>
+          <span class="font-normal text-gray-200">/night</span>
+        </span>
+
+       
+
+      </div>
+    </div>
+
+          </div>
+
+        </a>
+
+        <% }) %>
+            <div class="flex justify-center mt-6">
+  <a
+   href="<%= (isLoggedIn && user) ? `/home-list` : '/login' %>"
+    class="relative w-32 h-32 rounded-xl overflow-hidden shadow-lg group transition-transform duration-300 transform"
+  >
+    <!-- Background image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center transition-transform duration-500 transform group-hover:scale-110"
+      
+    ></div>
+
+    <!-- Overlay for dark gradient + text -->
+    <div class="absolute inset-0 bg-opacity-30 flex items-center justify-center">
+      <span class="text-white text-lg font-semibold transition-transform duration-300 group-hover:scale-110">
+        View All →
+      </span>
+    </div>
+  </a>
+</div>
+      </div>
+   
+
+   
+
+    <% } else { %>
+
+    <div class="text-center py-20">
+      <h3 class="text-lg font-semibold text-gray-700">
+        No top-rated homes available right now.
+      </h3>
+      <p class="text-gray-500 mt-2">Please check back later.</p>
+    </div>
+
+    <% } %>
+
+
+
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<section class="px-6 max-w-[90rem] mx-auto">
+  
+  <!-- Section Header -->
+  <div class="mb-2">
+    <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">
+      Homes in
+      <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+        Manali
+      </span>
+    </h2>
+    <div class="w-16 h-1 bg-gradient-to-r from-red-500 to-pink-500 mt-1 rounded-full"></div>
+  </div>
+
+  <% if (manaliHomes && manaliHomes.length > 0) { %>
+
+  <!-- Horizontal Scroll Container -->
+  <div class="flex gap-2 overflow-x-auto pb-6 scroll-smooth snap-x snap-mandatory">
+
+        <% manaliHomes.forEach(home => { %>
+
+        <a href="/home-list/<%= home._id %>" 
+           class="group relative block
+          w-[160px] md:w-[180px] lg:w-[200px]
+          flex-shrink-0
+          snap-start
+          rounded-2xl overflow-hidden
+          shadow hover:shadow-xl
+          transition-all duration-300">
+
+          <!-- Image -->
+          <div class="relative h-52 w-full">
+            <img src="/<%= home.houseImg %>"   loading="lazy"
+                 alt="<%= home.houseName %>" 
+                 class="h-full w-full object-cover 
+group-hover:scale-105 
+transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] 
+will-change-transform" />
+
+            <!-- Dark Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+
+            <!-- Rating -->
+            <div class="absolute top-3 left-3 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
+    <span class="text-yellow-400">★</span>
+    <%= home.houseRating %>
+  </div>
+
+                               <!-- Bottom Content -->
+ <div class="absolute bottom-3 left-3 right-3 text-white">
+      <h3 class="font-semibold text-sm sm:text-base line-clamp-1">
+        <%= home.houseName %>
+      </h3>
+
+      <p class="text-xs text-gray-200 line-clamp-1">
+        📍 <%= home.houseLocation %>
+      </p>
+
+      <!-- Price + Rating -->
+      <div class="flex justify-between items-center mt-2">
+
+        <span class="text-xs sm:text-sm font-bold">
+          ₹<%= home.houseRent %>
+          <span class="font-normal text-gray-200">/night</span>
+        </span>
+
+       
+
+      </div>
+    </div>
+          </div>
+
+        </a>
+
+        <% }) %>
+            
+      </div>
+
+  <% } else { %>
+
+    <div class="text-center py-10">
+      <p class="text-gray-500">No homes available in Manali.</p>
+    </div>
+
+  <% } %>
+
+</section>

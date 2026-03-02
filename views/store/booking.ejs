@@ -1,0 +1,183 @@
+<%- include('../partials/head')%>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-slate-950 to-black flex flex-col">
+
+<%- include('../partials/nav') %>
+
+<main class="flex-1 pb-16">
+
+<section class="mx-auto mt-28 w-full max-w-[90rem] px-6 min-h-screen">
+
+  <!-- Title -->
+  <div class="text-center max-w-3xl mx-auto">
+    <h1 class="text-xl md:text-3xl font-extrabold tracking-tight text-white">
+      My 
+      <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">
+        Bookings
+      </span>
+    </h1>
+
+    <p class="mx-auto mt-2 max-w-2xl text-xs md:text-base text-gray-400">
+      All your bookings appear here. Quickly check your upcoming stays,
+      past trips, and favourite homes in one place.
+    </p>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="mt-10 grid grid-cols-2 gap-6 text-center">
+
+    <a href="/booking/upcoming-Booking"
+       class="group cursor-pointer rounded-2xl
+              bg-white/[0.05] backdrop-blur-md
+              border border-white/10
+              p-6 shadow-lg shadow-black/40
+              hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/60
+              transition-all duration-300">
+
+      <p class="text-3xl transition duration-300 group-hover:scale-110">📅</p>
+      <p class="mt-3 text-sm font-semibold text-gray-200">Upcoming</p>
+    </a>
+
+    <a href="/booking/previous-Booking"
+       class="group cursor-pointer rounded-2xl
+              bg-white/[0.05] backdrop-blur-md
+              border border-white/10
+              p-6 shadow-lg shadow-black/40
+              hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/60
+              transition-all duration-300">
+
+      <p class="text-3xl transition duration-300 group-hover:scale-110">🏠</p>
+      <p class="mt-3 text-sm font-semibold text-gray-200">Stayed</p>
+    </a>
+
+  </div>
+
+  <% if (!bookings || bookings.length === 0) { %>
+
+    <p class="mt-16 text-center text-gray-400 text-lg">
+      You have no bookings yet.
+    </p>
+
+  <% } else { %>
+
+    <!-- Booking Grid -->
+    <div class="mt-14 grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
+      <% bookings.forEach(booking => { 
+          const today = new Date();
+          const isPast = booking.checkOut < today;
+      %>
+
+      <div class="group rounded-3xl 
+                  bg-white/[0.04] backdrop-blur-md
+                  border border-white/10
+                  shadow-lg shadow-black/40
+                  overflow-hidden
+                  hover:-translate-y-1
+                  hover:shadow-2xl hover:shadow-black/60
+                  transition-all duration-300 ease-out
+                  flex flex-col">
+
+        <!-- Image -->
+        <div class="relative overflow-hidden">
+
+          <img src="/<%= booking.home.houseImg %>"
+               loading="lazy"
+               alt="<%= booking.home.houseName %>"
+               class="h-52 w-full object-cover
+                      transition-transform duration-700 ease-out
+                      group-hover:scale-110">
+
+          <!-- Overlay -->
+          <div class="absolute bottom-0 left-0 w-full
+                      bg-gradient-to-t from-black/80 via-black/30 to-transparent
+                      p-4 text-white transition duration-300">
+
+            <h2 class="text-sm font-semibold line-clamp-1
+                       group-hover:text-red-400 transition duration-300">
+              <%= booking.home.houseName %>
+            </h2>
+
+            <p class="text-xs text-gray-200 line-clamp-1 mt-1">
+              📍 <%= booking.home.houseLocation %>
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Info Section -->
+        <div class="p-5 flex flex-col flex-grow text-gray-300">
+
+          <!-- Dates -->
+          <div class="text-sm space-y-1 text-gray-400">
+            <p><strong>Check-in:</strong> <%= booking.checkIn.toDateString() %></p>
+            <p><strong>Check-out:</strong> <%= booking.checkOut.toDateString() %></p>
+          </div>
+
+          <!-- Total -->
+          <p class="mt-4 text-lg font-bold
+                     bg-gradient-to-r from-red-500 to-pink-500
+                     bg-clip-text text-transparent">
+            Total: ₹<%= booking.totalPrice %>
+          </p>
+
+          <!-- Status -->
+          <p class="text-xs font-semibold mt-2 
+                     <%= isPast ? 'text-gray-400' : 'text-green-400' %>">
+            <%= isPast ? "Completed" : "Upcoming" %>
+          </p>
+
+          <!-- Button Section -->
+          <div class="mt-auto pt-5">
+
+            <% if (!isPast) { %>
+
+              <form action="/booking/delete/<%= booking._id %>" method="POST">
+                <button 
+                  type="submit"
+                  onclick="return confirm('Are you sure you want to cancel this booking?')"
+                  class="w-full py-2 rounded-xl text-sm font-semibold
+                         bg-gradient-to-r from-red-500 to-pink-500
+                         text-white
+                         shadow-lg shadow-red-500/30
+                         hover:shadow-red-500/50
+                         hover:scale-[1.02]
+                         active:scale-95
+                         transition-all duration-300">
+                  Cancel Booking
+                </button>
+              </form>
+
+            <% } else { %>
+
+              <button 
+                disabled
+                class="w-full py-2 rounded-xl text-sm font-medium
+                       bg-white/10 text-gray-400
+                       cursor-not-allowed">
+                Completed
+              </button>
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <% }) %>
+
+    </div>
+
+  <% } %>
+
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>
+
+</body>
+</html>

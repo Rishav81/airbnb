@@ -1,0 +1,146 @@
+<%-include('../partials/head')%>
+  </head>
+  <body class="bg-gradient-to-br from-slate-900 via-slate-950 to-black min-h-screen ">
+    <!-- Header -->
+   <%-include('../partials/nav')%>
+
+
+<div class="mt-20 md:mt-0 md:sticky md:top-24 z-30 w-full ">
+
+  <div class="mx-auto max-w-[90rem] px-4 md:px-8">
+
+    <div class="rounded-3xl
+                bg-white/[0.05] backdrop-blur-xl
+                border border-white/10
+                shadow-xl shadow-black/40
+                px-4 md:px-6 py-4
+                flex flex-col md:flex-row
+                items-stretch md:items-center
+                gap-4
+                transition-all duration-300">
+
+      <!-- Search Input -->
+      <div class="flex-1 relative group">
+        <input
+          type="text"
+          placeholder="Search homes..."
+          class="w-full rounded-full
+                 bg-white/[0.04]
+                 border border-white/10
+                 px-5 py-2.5
+                 text-sm text-white placeholder-gray-400
+                 focus:outline-none
+                 focus:ring-2 focus:ring-red-500/40
+                 focus:border-transparent
+                 transition-all duration-300
+                 hover:bg-white/[0.06]"
+        />
+
+        <!-- Glow -->
+        <div class="absolute inset-0 rounded-full
+                    opacity-0 group-focus-within:opacity-100
+                    bg-red-500/10 blur-xl
+                    transition duration-300 -z-10"></div>
+      </div>
+
+      <!-- Sort Dropdown -->
+      <div class="relative w-full md:w-[240px] group">
+        <select
+          class="w-full rounded-full
+                 bg-white/[0.04]
+                 border border-white/10
+                 px-5 py-2.5
+                 text-sm text-gray-300
+                 appearance-none cursor-pointer
+                 focus:outline-none
+                 focus:ring-2 focus:ring-red-500/40
+                 focus:border-transparent
+                 transition-all duration-300
+                 hover:bg-white/[0.06]">
+          <option>Sort by: Rating</option>
+          <option>Price: Low → High</option>
+          <option>Price: High → Low</option>
+          <option>Newly Added</option>
+        </select>
+
+        <!-- Arrow -->
+        <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+          <svg class="w-4 h-4 text-gray-400 group-hover:text-white transition duration-300"
+               fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"></path>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Apply Button -->
+      <div class="w-full md:w-auto">
+        <button
+          class="w-full md:w-auto
+                 rounded-full
+                 bg-gradient-to-r from-red-500 to-pink-500
+                 px-6 py-2.5
+                 text-sm font-semibold text-white
+                 shadow-md shadow-red-500/30
+                 hover:shadow-red-500/50
+                 hover:scale-[1.03]
+                 active:scale-95
+                 transition-all duration-300">
+          Apply
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+   <!-- All homes which are added by hosts will be listed here. -->
+<%- include("../partials/registerHomes") %>
+
+
+
+
+
+<!-- ✅ Favourite Toggle Script -->
+<script>
+document.querySelectorAll(".fav-btn").forEach(btn => {
+
+  btn.addEventListener("click", async () => {
+
+    const heart = btn.querySelector(".heart");
+    const homeId = btn.dataset.id;
+
+    try {
+      const res = await fetch(`/toggle-favourite/${homeId}`, {
+        method: "POST"
+      });
+
+      const data = await res.json();
+
+      if (data.isFavourite) {
+        heart.textContent = "❤️";
+        heart.classList.remove("text-gray-400");
+        heart.classList.add("text-red-500");
+      } else {
+        heart.textContent = "🤍";
+        heart.classList.remove("text-red-500");
+        heart.classList.add("text-gray-400");
+      }
+
+    } catch (err) {
+      console.error("Toggle error:", err);
+    }
+
+  });
+
+});
+</script>
+
+
+
+ <%-include ('../partials/footer')%>
+
+  </body>
+

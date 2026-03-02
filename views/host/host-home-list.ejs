@@ -1,0 +1,134 @@
+<%- include('../partials/head') %>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 via-slate-950 to-black min-h-screen">
+
+<%- include('../partials/nav') %>
+
+<section class="pt-24 pb-16 min-h-screen">
+  <div class="mx-auto  max-w-[90rem] px-6">
+
+    <!-- Heading -->
+    <h1 class="text-center text-xl md:text-2xl lg:text-3xl 
+               font-extrabold tracking-tight text-white">
+      Your 
+      <span class="bg-gradient-to-r from-red-500 to-pink-500 
+                   bg-clip-text text-transparent">
+        Hosted Homes
+      </span>
+    </h1>
+
+    <p class="text-center text-gray-500 mt-1 text-sm md:text-base">
+      Manage, edit and track all your listed properties here.
+    </p>
+
+    <!-- Responsive Grid -->
+    <ul class="mt-6 
+               grid 
+              
+               
+               md:grid-cols-3
+               lg:grid-cols-4 
+               xl:grid-cols-5 
+               gap-6">
+
+      <% registeredHomes.forEach((home) => { %>
+
+    <li class="group relative rounded-3xl 
+           overflow-hidden 
+           shadow-md 
+           hover:shadow-2xl 
+           
+           transition-all duration-300">
+
+  <!-- Image -->
+  <img 
+    src="/<%= home.houseImg %>"
+    loading="lazy"
+    alt="<%= home.houseName %>"
+    class="w-full h-64 object-cover 
+           transition duration-500 group-hover:scale-105">
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 
+              bg-gradient-to-t 
+              from-black/60 
+              via-black/20 
+              to-transparent"></div>
+
+  <!-- Content On Image -->
+  <div class="absolute bottom-0 left-0 right-0 
+              p-4 text-white space-y-3">
+
+    <!-- Title + Location -->
+    <div>
+      <h2 class="text-lg font-semibold 
+                 group-hover:text-red-400 
+                 transition line-clamp-1">
+        <%= home.houseName %>
+      </h2>
+
+      <p class="text-xs text-gray-200  flex items-center gap-1 line-clamp-1 truncate">
+        📍 <%= home.houseLocation %>
+      </p>
+    </div>
+
+    <!-- Price -->
+    <div>
+      <p class="font-semibold text-sm">
+        ₹<%= home.houseRent %>
+        <span class="text-xs font-normal text-gray-300">/ night</span>
+      </p>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-between items-center pt-2">
+
+      <a href="/home-list/<%= home.id %>"
+         class="text-xs font-medium 
+                text-white/80 
+                hover:text-white transition">
+        View →
+      </a>
+
+      <div class="flex gap-2">
+
+        <!-- Edit -->
+        <a href="/host/edit-home/<%= home.id %>?editing=true"
+           class="px-3 py-1 text-xs font-medium
+                  rounded-md
+                  bg-white/20 backdrop-blur
+                  hover:bg-white/30
+                  transition">
+          Edit
+        </a>
+
+        <!-- Delete -->
+        <form action="/host/delete-home/<%= home.id %>" method="POST">
+          <button type="submit"
+            class="px-3 py-1 text-xs font-medium
+                   rounded-md
+                   bg-red-500/80
+                   hover:bg-red-600
+                   transition">
+            Delete
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</li>
+
+      <% }) %>
+
+    </ul>
+
+  </div>
+</section>
+<%-include ('../partials/footer')%>
+</body>
+</html>
